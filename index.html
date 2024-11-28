@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Rutas de Transporte en Celaya</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <style>
+        /* Asegúrate de que el cuerpo ocupe todo el espacio disponible */
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Estilo básico para el contenedor */
+        #root {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        p {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <h1>Mapa de Rutas de Transporte en Celaya</h1>
+        <p>Texto de prueba para verificar que la página se carga correctamente.</p>
+    </div>
+    
+    <!-- Incluye el script de React compilado en tu proyecto -->
+    <script src="bundle.js"></script>
+    
+    <!-- Hoja de estilos de Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</body>
+</html>
