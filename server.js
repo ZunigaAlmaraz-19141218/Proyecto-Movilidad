@@ -22,7 +22,9 @@ mongoose.connect('mongodb://localhost:27017/proyecto-movilidad', {
 const routeSchema = new mongoose.Schema({
   name: String,
   gpsCoordinates: [[Number]],  // Un array de coordenadas [lat, lon]
-  city: String  // Agregar el campo de ciudad
+  city: String , // Agregar el campo de ciudad
+  schedule: String,  // Horario
+  timeToComplete: String  // Tiempo de recorrido
 });
 
 const Route = mongoose.model('Route', routeSchema);
@@ -40,13 +42,15 @@ app.get('/routes', async (req, res) => {
 // Nueva ruta POST para agregar una ruta
 app.post('/add-route', async (req, res) => {
   try {
-    const { name, gpsCoordinates, city } = req.body;
+    const { name, gpsCoordinates, city, schedule, timeToComplete  } = req.body;
     
     // Crear una nueva instancia de la ruta y guardarla en la base de datos
     const newRoute = new Route({
       name,
       gpsCoordinates,
-      city
+      city,
+      schedule,  // Añadir horario
+      timeToComplete 
     });
 
     await newRoute.save(); // Guardar la nueva ruta en la base de datos
@@ -66,14 +70,22 @@ app.get('/route/:id', async (req, res) => {
   }
 });
 
-// Eliminar todas las rutas
-app.delete('/routes', async (req, res) => {
+// Configura la ruta DELETE
+app.delete('/route/:id', async (req, res) => {
   try {
-    const result = await Route.deleteMany({});
-    res.status(200).json({ message: 'Todas las rutas han sido eliminadas', result });
+    const routeId = req.params.id;
+    
+    // Eliminar la ruta por su ID
+    const deletedRoute = await Route.findByIdAndDelete(routeId);
+    
+    if (!deletedRoute) {
+      return res.status(404).send({ message: 'Ruta no encontrada' });
+    }
+    
+    res.status(200).send({ message: 'Ruta eliminada exitosamente' });
   } catch (error) {
-    console.error('Error al eliminar rutas:', error);
-    res.status(500).json({ message: 'Error al eliminar las rutas', error });
+    console.error(error);
+    res.status(500).send({ message: 'Error al eliminar la ruta' });
   }
 });
 
